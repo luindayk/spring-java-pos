@@ -2,6 +2,7 @@ package br.com.facef.informatica.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "turmas")
@@ -14,6 +15,10 @@ public class Turma implements Serializable {
     private int id;
     private String nome;
     private br.com.facef.informatica.utils.Turma turma;
+
+    @ManyToOne
+    @JoinColumn(name="aluno_id", nullable = false)
+    private List<Aluno> alunos;
 
     @ManyToOne
     @JoinColumn(name = "curso_id", nullable = false)

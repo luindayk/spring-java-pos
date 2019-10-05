@@ -34,7 +34,7 @@ public class ProfessorController {
             throw new CustomNotFoundException("Professor informado não foi encontrado");
         }
 
-        return ResponseEntity.ok().body(professorBusiness.find(id));
+        return ResponseEntity.ok().body(p);
     }
 
     @PostMapping
