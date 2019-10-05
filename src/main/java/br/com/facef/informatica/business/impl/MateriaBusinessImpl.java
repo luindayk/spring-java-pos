@@ -4,9 +4,11 @@ import br.com.facef.informatica.business.MateriaBusiness;
 import br.com.facef.informatica.model.Materia;
 import br.com.facef.informatica.repository.MateriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MateriaBusinessImpl implements MateriaBusiness {
 
     private MateriaRepository materiaRepository;

@@ -28,9 +28,9 @@ public class MateriaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Materia> find(@PathVariable int id) {
-        Materia p = materiaBusiness.find(id);
+        Materia m = materiaBusiness.find(id);
 
-        if (p == null) {
+        if (m == null) {
             throw new CustomNotFoundException("Matéria informada não foi encontrada");
         }
 

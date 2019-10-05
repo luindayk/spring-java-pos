@@ -7,9 +7,11 @@ import br.com.facef.informatica.model.Turma;
 import br.com.facef.informatica.repository.ProfessorRepository;
 import br.com.facef.informatica.repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TurmaBusinessImpl implements TurmaBusiness {
 
     private TurmaRepository turmaRepository;

@@ -2,6 +2,7 @@ package br.com.facef.informatica.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "materias")
@@ -18,6 +19,9 @@ public class Materia implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
     private Professor professor;
+
+    @ManyToMany(mappedBy = "turmas")
+    private List<Curso> cursos;
 
     public Materia() {
     }
@@ -59,5 +63,13 @@ public class Materia implements Serializable {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    public List<Curso> getCursos() {
+        return cursos;
+    }
+
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
     }
 }

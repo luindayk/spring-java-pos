@@ -15,6 +15,10 @@ public class Turma implements Serializable {
     private String nome;
     private br.com.facef.informatica.utils.Turma turma;
 
+    @ManyToOne
+    @JoinColumn(name = "curso_id", nullable = false)
+    private Curso curso;
+
     public Turma() {
     }
 
@@ -46,5 +50,13 @@ public class Turma implements Serializable {
 
     public void setTurma(br.com.facef.informatica.utils.Turma turma) {
         this.turma = turma;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
     }
 }

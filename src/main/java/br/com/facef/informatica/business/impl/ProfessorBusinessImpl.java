@@ -4,9 +4,11 @@ import br.com.facef.informatica.business.ProfessorBusiness;
 import br.com.facef.informatica.model.Professor;
 import br.com.facef.informatica.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProfessorBusinessImpl implements ProfessorBusiness {
 
     private ProfessorRepository professorRepository;
