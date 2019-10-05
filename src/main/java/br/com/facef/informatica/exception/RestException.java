@@ -1,5 +1,7 @@
 package br.com.facef.informatica.exception;
 
+import br.com.facef.informatica.exception.impl.CustomBadRequestException;
+import br.com.facef.informatica.exception.impl.CustomNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,9 +16,15 @@ public class RestException {
         return new Response("Internal Server Error");
     }
 
-    @ExceptionHandler(NoSuchFieldException.class)
+    @ExceptionHandler(CustomBadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Response exception(NoSuchFieldException ex) {
-        return new Response("Bad Request");
+    public Response exception(CustomBadRequestException ex) {
+        return new Response(ex.getMessage());
+    }
+
+    @ExceptionHandler(CustomNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Response exception(CustomNotFoundException ex) {
+        return new Response(ex.getMessage());
     }
 }
