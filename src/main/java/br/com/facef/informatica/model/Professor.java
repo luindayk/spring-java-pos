@@ -2,6 +2,7 @@ package br.com.facef.informatica.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "professores")
@@ -14,6 +15,9 @@ public class Professor implements Serializable {
     private int id;
     private String nome;
     private String especializacao;
+
+    @OneToMany(mappedBy = "professor")
+    private Set<Materia> materias;
 
     public Professor() {
     }
