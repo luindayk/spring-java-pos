@@ -1,0 +1,1073 @@
+openapi: 3.0.1
+info:
+  title: InfoREST
+  description: Rest API para escola de informártica
+  version: 1.0.0
+servers:
+- url: https://petstore.swagger.io/v1
+- url: http://petstore.swagger.io/v1
+tags:
+- name: cursos
+  description: Nossos cursos
+- name: materias
+  description: Nossas matérias
+- name: turmas
+  description: Nossas turmas
+- name: professores
+  description: Nossos professores
+- name: alunos
+  description: Nossos alunos
+paths:
+  /cursos:
+    get:
+      tags:
+      - cursos
+      summary: Cursos cadastrados
+      description: Retorna uma lista de cursos cadastrados
+      operationId: getCursos
+      parameters:
+      - name: nome
+        in: query
+        description: Filtrar pelo nome do curso
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Curso'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    post:
+      tags:
+      - cursos
+      summary: Criar um curso
+      description: Dados do curso a ser criado
+      operationId: addCurso
+      requestBody:
+        description: Dados do curso a ser criado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Curso'
+        required: true
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /cursos/{id}:
+    get:
+      tags:
+      - cursos
+      summary: Detalhes do curso
+      description: Retorna os dados do curso através do Id informado
+      operationId: getCurso
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    put:
+      tags:
+      - cursos
+      summary: Atualizar curso
+      description: Atualiza os dados do curso através do Id informado
+      operationId: updateCurso
+      parameters:
+      - name: id
+        in: path
+        description: Id do curso
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Dados do curso a ser atualizado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Curso'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    delete:
+      tags:
+      - cursos
+      summary: Remover curso
+      description: Remove um curso através do Id informado
+      operationId: deleteCurso
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /materias:
+    get:
+      tags:
+      - materias
+      summary: Matérias cadastradas
+      description: Retorna uma lista de mateŕias cadastradas
+      operationId: getMaterias
+      parameters:
+      - name: nome
+        in: query
+        description: Filtrar pelo nome da matéria
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Materia'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    post:
+      tags:
+      - materias
+      summary: Criar uma matéria
+      description: Dados da matéria a ser criada
+      operationId: addMateria
+      requestBody:
+        description: Dados da matéria a ser criada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Materia'
+        required: false
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Materia'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /materias/{id}:
+    get:
+      tags:
+      - materias
+      summary: Detalhes da matéria
+      description: Retorna os dados da matéria através do Id informado
+      operationId: getMateria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Materia'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    put:
+      tags:
+      - materias
+      summary: Atualizar matéria
+      description: Atualiza os dados da matéria através do Id informado
+      operationId: updateMateria
+      parameters:
+      - name: id
+        in: path
+        description: Id da matéria
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Dados da matéria a ser atualizada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Materia'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Materia'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    delete:
+      tags:
+      - materias
+      summary: Remover matéria
+      description: Remove uma matéria através do Id informado
+      operationId: deleteMateria
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /turmas:
+    get:
+      tags:
+      - turmas
+      summary: Turmas cadastradas
+      description: Retorna uma lista de turmas cadastradas
+      operationId: getTurmas
+      parameters:
+      - name: nome
+        in: query
+        description: Filtrar pelo nome da turma
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Turma'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    post:
+      tags:
+      - turmas
+      summary: Criar uma turma
+      description: Dados da turma a ser criada
+      operationId: addTurma
+      requestBody:
+        description: Dados da turma a ser criada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Turma'
+        required: false
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Turma'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /turmas/{id}:
+    get:
+      tags:
+      - turmas
+      summary: Detalhes da turma
+      description: Retorna os dados da turma através do Id informado
+      operationId: getTurma
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Turma'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    put:
+      tags:
+      - turmas
+      summary: Atualizar turma
+      description: Atualiza os dados da turma através do Id informado
+      operationId: updateTurma
+      parameters:
+      - name: id
+        in: path
+        description: Id da turma
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Dados da turma a ser atualizada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Turma'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Turma'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    delete:
+      tags:
+      - turmas
+      summary: Remover turma
+      description: Remove uma turma através do Id informado
+      operationId: deleteTurma
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /professores:
+    get:
+      tags:
+      - professores
+      summary: Professores cadastrados
+      description: Retorna uma lista de professores cadastrados
+      operationId: getProfessores
+      parameters:
+      - name: nome
+        in: query
+        description: Filtrar pelo nome do professor
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Professor'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    post:
+      tags:
+      - professores
+      summary: Cadastrar um professor
+      description: Dados do professor a ser cadastrado
+      operationId: addProfessor
+      requestBody:
+        description: Dados do professor a ser cadastrado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Professor'
+        required: false
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professor'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /professores/{id}:
+    get:
+      tags:
+      - professores
+      summary: Detalhes do professor
+      description: Retorna os dados do professor através do Id informado
+      operationId: getProfessor
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professor'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    put:
+      tags:
+      - professores
+      summary: Atualizar professor
+      description: Atualiza os dados do professor através do Id informado
+      operationId: updateProfessor
+      parameters:
+      - name: id
+        in: path
+        description: Id do professor
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Dados do professor a ser atualizado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Professor'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professor'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    delete:
+      tags:
+      - professores
+      summary: Remover professor
+      description: Remove um professor através do Id informado
+      operationId: deleteProfessor
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /alunos:
+    get:
+      tags:
+      - alunos
+      summary: Alunos cadastrados
+      description: Retorna uma lista de alunos cadastrados
+      operationId: getAlunos
+      parameters:
+      - name: nome
+        in: query
+        description: Filtrar pelo nome do aluno
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Aluno'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    post:
+      tags:
+      - alunos
+      summary: Cadastrar um aluno
+      description: Dados do aluno a ser cadastrado
+      operationId: addAluno
+      requestBody:
+        description: Dados do aluno a ser cadastrado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+        required: false
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /alunos/{id}:
+    get:
+      tags:
+      - alunos
+      summary: Detalhes do aluno
+      description: Retorna os dados do aluno através do Id informado
+      operationId: getAluno
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    put:
+      tags:
+      - alunos
+      summary: Atualizar aluno
+      description: Atualiza os dados do aluno através do Id informado
+      operationId: updateAluno
+      parameters:
+      - name: id
+        in: path
+        description: Id do aluno
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Dados do aluno a ser atualizado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    delete:
+      tags:
+      - alunos
+      summary: Remover aluno
+      description: Remove um aluno através do Id informado
+      operationId: deleteAluno
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        404:
+          description: Object Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+components:
+  schemas:
+    Curso:
+      required:
+      - materias
+      - nome
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id de identificação do curso
+          format: int64
+        nome:
+          type: string
+          description: Nome do curso
+        descricao:
+          type: string
+          description: Descrição do curso
+        materias:
+          type: array
+          description: Matérias do curso
+          items:
+            $ref: '#/components/schemas/Materia'
+      description: Atributos do objeto Curso
+    Materia:
+      required:
+      - nome
+      - professor
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        descricao:
+          type: string
+        professor:
+          $ref: '#/components/schemas/Professor'
+      description: Atributos do objeto Matéria
+    Turma:
+      required:
+      - nome
+      - periodo
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id de identificação da turma
+          format: int64
+        nome:
+          type: string
+          description: Nome da turma
+        periodo:
+          type: string
+          description: Período que a turma se encontra
+          enum:
+          - manha
+          - tarde
+          - noite
+        alunos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aluno'
+      description: Atributos do objeto Turma
+    Professor:
+      required:
+      - especializacao
+      - nome
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id de identificação do professor
+          format: int64
+        nome:
+          type: string
+          description: Nome do professor
+        especializacao:
+          type: string
+          description: Área de conhecimento do professor
+      description: Atributos do objeto Professor
+    Aluno:
+      required:
+      - nome
+      - turma
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id de identificação do aluno
+          format: int64
+        nome:
+          type: string
+          description: Nome do aluno
+        turma:
+          $ref: '#/components/schemas/Turma'
+      description: Atributos do objeto Aluno
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
