@@ -16,9 +16,8 @@ public class Turma implements Serializable {
     private String nome;
     private br.com.facef.informatica.utils.Turma turma;
 
-    @ManyToOne
-    @JoinColumn(name="aluno_id", nullable = false)
-    private Aluno aluno;
+    @ManyToMany(mappedBy = "turmas")
+    private List<Aluno> alunos;
 
     @ManyToOne
     @JoinColumn(name = "curso_id", nullable = false)
@@ -27,10 +26,12 @@ public class Turma implements Serializable {
     public Turma() {
     }
 
-    public Turma(int id, String nome, br.com.facef.informatica.utils.Turma turma) {
+    public Turma(int id, String nome, br.com.facef.informatica.utils.Turma turma, List<Aluno> alunos, Curso curso) {
         this.id = id;
         this.nome = nome;
         this.turma = turma;
+        this.alunos = alunos;
+        this.curso = curso;
     }
 
     public int getId() {
@@ -55,6 +56,14 @@ public class Turma implements Serializable {
 
     public void setTurma(br.com.facef.informatica.utils.Turma turma) {
         this.turma = turma;
+    }
+
+    public List<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(List<Aluno> alunos) {
+        this.alunos = alunos;
     }
 
     public Curso getCurso() {

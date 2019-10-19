@@ -2,6 +2,7 @@ package br.com.facef.informatica.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,8 +15,12 @@ public class Aluno implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
-    @OneToMany(mappedBy = "aluno")
-    private Set<Turma> turma;
+    @ManyToMany
+    @JoinTable(name = "alunos_turma",
+        joinColumns = @JoinColumn(name = "aluno_id"),
+        inverseJoinColumns = @JoinColumn(name = "turma_id")
+    )
+    private List<Turma> turmas;
 
     public Aluno() {
     }
@@ -36,11 +41,11 @@ public class Aluno implements Serializable {
         this.nome = nome;
     }
 
-    public Set<Turma> getTurma() {
-        return turma;
+    public List<Turma> getTurmas() {
+        return turmas;
     }
 
-    public void setTurma(Set<Turma> turma) {
-        this.turma = turma;
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
     }
 }
