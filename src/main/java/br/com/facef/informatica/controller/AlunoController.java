@@ -5,7 +5,9 @@ import br.com.facef.informatica.exception.Response;
 import br.com.facef.informatica.exception.impl.CustomBadRequestException;
 import br.com.facef.informatica.exception.impl.CustomNotFoundException;
 import br.com.facef.informatica.model.Aluno;
+import br.com.facef.informatica.model.Turma;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +27,11 @@ public class AlunoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Aluno>> findAll(@PageableDefault(size = 10)Pageable pageable) {
-        return ResponseEntity.ok().body(alunoBusiness.findAll(pageable));
+    public ResponseEntity<List<Aluno>> findAll(@PageableDefault(size = 10)Pageable pageable, @RequestParam(required = false) String nome) {
+        Aluno a = new Aluno();
+        a.setNome(nome);
+
+        return ResponseEntity.ok().body(alunoBusiness.findAll(Example.of(a), pageable));
     }
 
     @GetMapping("/{id}")
