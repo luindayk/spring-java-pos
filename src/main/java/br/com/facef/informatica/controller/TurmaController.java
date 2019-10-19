@@ -7,6 +7,8 @@ import br.com.facef.informatica.exception.impl.CustomNotFoundException;
 import br.com.facef.informatica.model.Professor;
 import br.com.facef.informatica.model.Turma;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,8 @@ public class TurmaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Turma>> findAll() {
-        return ResponseEntity.ok().body(turmaBusiness.findAll());
+    public ResponseEntity<List<Turma>> findAll(@PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok().body(turmaBusiness.findAll(pageable));
     }
 
     @GetMapping("/{id}")

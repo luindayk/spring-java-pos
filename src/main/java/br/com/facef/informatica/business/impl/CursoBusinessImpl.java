@@ -4,6 +4,7 @@ import br.com.facef.informatica.business.CursoBusiness;
 import br.com.facef.informatica.model.Curso;
 import br.com.facef.informatica.repository.CursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class CursoBusinessImpl implements CursoBusiness {
     }
 
     @Override
-    public List<Curso> findAll() {
-        return cursoRepository.findAll();
+    public List<Curso> findAll(Pageable pageable) {
+        return cursoRepository.findAll(pageable).getContent();
     }
 
     @Override

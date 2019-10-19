@@ -1,12 +1,13 @@
 package br.com.facef.informatica.business;
 
 import br.com.facef.informatica.model.Curso;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface CursoBusiness {
 
-    List<Curso> findAll();
+    List<Curso> findAll(Pageable pageable);
     Curso find(int id);
     Curso create(Curso professor);
     Curso update(Curso professor);
