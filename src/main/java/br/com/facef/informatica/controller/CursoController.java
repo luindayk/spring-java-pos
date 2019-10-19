@@ -38,7 +38,7 @@ public class CursoController {
             throw new CustomNotFoundException("Curso informado não foi encontrado");
         }
 
-        return ResponseEntity.ok().body(cursoBusiness.find(id));
+        return ResponseEntity.ok().body(c);
     }
 
     @PostMapping

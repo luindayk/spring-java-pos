@@ -36,7 +36,7 @@ public class MateriaController {
             throw new CustomNotFoundException("Matéria informada não foi encontrada");
         }
 
-        return ResponseEntity.ok().body(materiaBusiness.find(id));
+        return ResponseEntity.ok().body(m);
     }
 
     @PostMapping

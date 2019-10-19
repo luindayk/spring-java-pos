@@ -38,7 +38,7 @@ public class TurmaController {
             throw new CustomNotFoundException("Turma informada não foi encontrada");
         }
 
-        return ResponseEntity.ok().body(turmaBusiness.find(id));
+        return ResponseEntity.ok().body(t);
     }
 
     @PostMapping
