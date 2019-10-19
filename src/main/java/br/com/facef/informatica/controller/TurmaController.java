@@ -1,9 +1,11 @@
 package br.com.facef.informatica.controller;
 
+import br.com.facef.informatica.business.CursoBusiness;
 import br.com.facef.informatica.business.ProfessorBusiness;
 import br.com.facef.informatica.business.TurmaBusiness;
 import br.com.facef.informatica.exception.impl.CustomBadRequestException;
 import br.com.facef.informatica.exception.impl.CustomNotFoundException;
+import br.com.facef.informatica.model.Curso;
 import br.com.facef.informatica.model.Professor;
 import br.com.facef.informatica.model.Turma;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,14 @@ import java.util.Optional;
 public class TurmaController {
 
     private TurmaBusiness turmaBusiness;
+    private CursoBusiness cursoBusiness;
 
     @Autowired
-    public TurmaController(TurmaBusiness turmaBusiness) {
+    public TurmaController(TurmaBusiness turmaBusiness, CursoBusiness cursoBusiness) {
         this.turmaBusiness = turmaBusiness;
+        this.cursoBusiness = cursoBusiness;
     }
+
 
     @GetMapping
     public ResponseEntity<List<Turma>> findAll(@PageableDefault(size = 10) Pageable pageable) {
@@ -47,6 +52,14 @@ public class TurmaController {
         if (turma.getId() != 0) {
             throw new CustomBadRequestException("Campo ID não deve ser enviado para esta requisição");
         }
+
+        Optional<Curso> oc = cursoBusiness.find(turma.getCurso().getId());
+
+        if (oc.equals(Optional.empty())) {
+            throw new CustomNotFoundException("Turma " + turma.getCurso().getId() + " informada não existe!");
+        }
+
+        turma.setCurso(oc.get());
 
         return ResponseEntity.ok().body(turmaBusiness.create(turma));
     }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/cursos")
@@ -31,8 +32,8 @@ public class CursoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Curso> find(@PathVariable int id) {
-        Curso c = cursoBusiness.find(id);
+    public ResponseEntity<Optional<Curso>> find(@PathVariable int id) {
+        Optional<Curso> c = cursoBusiness.find(id);
 
         if (c == null) {
             throw new CustomNotFoundException("Curso informado não foi encontrado");
@@ -52,7 +53,7 @@ public class CursoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Curso> update(@RequestBody Curso curso, int id) {
-        Curso c = cursoBusiness.find(id);
+        Optional<Curso> c = cursoBusiness.find(id);
 
         if (c == null) {
             throw new CustomNotFoundException("Curso informado não foi encontrado");
@@ -62,7 +63,7 @@ public class CursoController {
     }
 
     public ResponseEntity<String> delete(@RequestBody Curso curso) {
-        Curso c = cursoBusiness.find(curso.getId());
+        Optional<Curso> c = cursoBusiness.find(curso.getId());
 
         if (c == null) {
             throw new CustomNotFoundException("Curso informado não foi encontrado");

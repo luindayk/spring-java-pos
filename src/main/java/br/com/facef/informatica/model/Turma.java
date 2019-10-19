@@ -1,5 +1,7 @@
 package br.com.facef.informatica.model;
 
+import br.com.facef.informatica.utils.Periodo;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +16,7 @@ public class Turma implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
-    private br.com.facef.informatica.utils.Turma turma;
+    private Periodo periodo;
 
     @ManyToMany(mappedBy = "turmas")
     private List<Aluno> alunos;
@@ -26,10 +28,10 @@ public class Turma implements Serializable {
     public Turma() {
     }
 
-    public Turma(int id, String nome, br.com.facef.informatica.utils.Turma turma, List<Aluno> alunos, Curso curso) {
+    public Turma(int id, String nome, Periodo periodo, List<Aluno> alunos, Curso curso) {
         this.id = id;
         this.nome = nome;
-        this.turma = turma;
+        this.periodo = periodo;
         this.alunos = alunos;
         this.curso = curso;
     }
@@ -50,12 +52,12 @@ public class Turma implements Serializable {
         this.nome = nome;
     }
 
-    public br.com.facef.informatica.utils.Turma getTurma() {
-        return turma;
+    public Periodo getPeriodo() {
+        return periodo;
     }
 
-    public void setTurma(br.com.facef.informatica.utils.Turma turma) {
-        this.turma = turma;
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
     }
 
     public List<Aluno> getAlunos() {

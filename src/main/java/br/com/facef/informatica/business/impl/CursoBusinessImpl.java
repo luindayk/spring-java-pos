@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CursoBusinessImpl implements CursoBusiness {
@@ -25,8 +26,8 @@ public class CursoBusinessImpl implements CursoBusiness {
     }
 
     @Override
-    public Curso find(int id) {
-        return cursoRepository.getOne(id);
+    public Optional<Curso> find(int id) {
+        return cursoRepository.findById(id);
     }
 
     @Override
