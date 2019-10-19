@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "materias")
+@Table(name = "cursos")
 public class Curso implements Serializable {
 
     private static final long serialVersionUID = -3404326657727820330L;
