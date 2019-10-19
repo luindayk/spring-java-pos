@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/turmas")
@@ -31,10 +32,10 @@ public class TurmaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Turma> find(@PathVariable int id) {
-        Turma t = turmaBusiness.find(id);
+    public ResponseEntity<Optional<Turma>> find(@PathVariable int id) {
+        Optional<Turma> t = turmaBusiness.find(id);
 
-        if (t == null) {
+        if (t.equals(Optional.empty())) {
             throw new CustomNotFoundException("Turma informada não foi encontrada");
         }
 
@@ -52,9 +53,9 @@ public class TurmaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Turma> update(@RequestBody Turma turma, int id) {
-        Turma t = turmaBusiness.find(id);
+        Optional<Turma> t = turmaBusiness.find(id);
 
-        if (t == null) {
+        if (t.equals(Optional.empty())) {
             throw new CustomNotFoundException("Turma informada não foi encontrada");
         }
 
@@ -62,9 +63,9 @@ public class TurmaController {
     }
 
     public ResponseEntity<String> delete(@RequestBody Turma turma) {
-        Turma t = turmaBusiness.find(turma.getId());
+        Optional<Turma> t = turmaBusiness.find(turma.getId());
 
-        if (t == null) {
+        if (t.equals(Optional.empty())) {
             throw new CustomNotFoundException("Turma informada não foi encontrada");
         }
 

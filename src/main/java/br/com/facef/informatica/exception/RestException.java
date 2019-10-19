@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-//@RestControllerAdvice
+@RestControllerAdvice
 public class RestException {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response exception(Exception ex) {
-        return new Response("Internal Server Error");
+        return new Response(ex.getMessage());
     }
 
     @ExceptionHandler(CustomBadRequestException.class)

@@ -1,7 +1,7 @@
 package br.com.facef.informatica.controller;
 
 import br.com.facef.informatica.business.AlunoBusiness;
-import br.com.facef.informatica.exception.Response;
+import br.com.facef.informatica.business.TurmaBusiness;
 import br.com.facef.informatica.exception.impl.CustomBadRequestException;
 import br.com.facef.informatica.exception.impl.CustomNotFoundException;
 import br.com.facef.informatica.model.Aluno;
@@ -13,23 +13,30 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/alunos")
 public class AlunoController {
 
     private AlunoBusiness alunoBusiness;
+    private TurmaBusiness turmaBusiness;
 
     @Autowired
-    public AlunoController(AlunoBusiness alunoBusiness) {
+    public AlunoController(AlunoBusiness alunoBusiness, TurmaBusiness turmaBusiness) {
         this.alunoBusiness = alunoBusiness;
+        this.turmaBusiness = turmaBusiness;
     }
 
     @GetMapping
-    public ResponseEntity<List<Aluno>> findAll(@PageableDefault(size = 10)Pageable pageable, @RequestParam(required = false) String nome) {
+    public ResponseEntity<List<Aluno>> findAll(@PageableDefault(size = 10)Pageable pageable, @RequestParam(required = false) Optional<String> nome) {
         Aluno a = new Aluno();
-        a.setNome(nome);
+
+        if (nome.isPresent()) {
+            a.setNome(nome.get());
+        }
 
         return ResponseEntity.ok().body(alunoBusiness.findAll(Example.of(a), pageable));
     }
@@ -51,6 +58,16 @@ public class AlunoController {
             throw new CustomBadRequestException("Campo ID não deve ser enviado para esta requisição");
         }
 
+        /* Verifica se a turma enviada na requisição existe */
+        for (Turma t : aluno.getTurmas()) {
+            Optional<Turma> ot = turmaBusiness.find(t.getId());
+
+            if (ot.equals(Optional.empty())) {
+                throw new CustomNotFoundException("Turma " + t.getId() + " informada não existe!");
+            }
+        }
+        /* Verifica se a turma enviada na requisição existe */
+
         return ResponseEntity.ok().body(alunoBusiness.create(aluno));
     }
 
@@ -61,6 +78,16 @@ public class AlunoController {
         if (a == null) {
             throw new CustomBadRequestException("Aluno informado não foi encontrado");
         }
+
+        /* Verifica se a turma enviada na requisição existe */
+        for (Turma t : aluno.getTurmas()) {
+            Optional<Turma> ot = turmaBusiness.find(t.getId());
+
+            if (ot.equals(Optional.empty())) {
+                throw new CustomNotFoundException("Turma " + t.getId() + " informada não existe!");
+            }
+        }
+        /* Verifica se a turma enviada na requisição existe */
 
         return ResponseEntity.ok().body(alunoBusiness.update(aluno));
     }

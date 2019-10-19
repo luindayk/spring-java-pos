@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TurmaBusinessImpl implements TurmaBusiness {
@@ -28,8 +29,8 @@ public class TurmaBusinessImpl implements TurmaBusiness {
     }
 
     @Override
-    public Turma find(int id) {
-        return turmaRepository.getOne(id);
+    public Optional<Turma> find(int id) {
+        return turmaRepository.findById(id);
     }
 
     @Override
