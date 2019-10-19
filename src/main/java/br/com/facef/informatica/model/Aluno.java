@@ -14,7 +14,7 @@ public class Aluno implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
-    @OneToMany(mappedBy = "alunos")
+    @OneToMany(mappedBy = "aluno")
     private Set<Turma> turma;
 
     public Aluno() {

@@ -18,7 +18,7 @@ public class Turma implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="aluno_id", nullable = false)
-    private List<Aluno> alunos;
+    private Aluno aluno;
 
     @ManyToOne
     @JoinColumn(name = "curso_id", nullable = false)

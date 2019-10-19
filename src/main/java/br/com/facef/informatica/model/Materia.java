@@ -17,7 +17,7 @@ public class Materia implements Serializable {
     private String descricao;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
 
     @ManyToMany(mappedBy = "turmas")
