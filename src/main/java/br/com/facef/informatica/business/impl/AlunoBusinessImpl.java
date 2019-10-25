@@ -25,7 +25,7 @@ public class AlunoBusinessImpl implements AlunoBusiness {
 
     @Override
     public Aluno find(int id) {
-        return alunoRepository.getOne(id);
+        return alunoRepository.findById(id).get();
     }
 
     @Override

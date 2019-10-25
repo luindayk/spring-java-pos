@@ -11,5 +11,5 @@ public interface ProfessorBusiness {
     Professor find(int id);
     Professor create(Professor professor);
     Professor update(Professor professor);
-    void delete(Professor professor);
+    void delete(int id);
 }

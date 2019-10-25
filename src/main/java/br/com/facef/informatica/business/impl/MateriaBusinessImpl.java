@@ -26,7 +26,7 @@ public class MateriaBusinessImpl implements MateriaBusiness {
 
     @Override
     public Materia find(int id) {
-        return materiaRepository.getOne(id);
+        return materiaRepository.findById(id).get();
     }
 
     @Override

@@ -7,6 +7,7 @@ import br.com.facef.informatica.model.Professor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,50 +25,41 @@ public class ProfessorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Professor>> findAll(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<List<Professor>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
         return ResponseEntity.ok().body(professorBusiness.findAll(pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Professor> find(@PathVariable int id) {
+        professorExists(id);
         Professor p = professorBusiness.find(id);
-
-        if (p == null) {
-            throw new CustomNotFoundException("Professor informado não foi encontrado");
-        }
-
         return ResponseEntity.ok().body(p);
     }
 
     @PostMapping
     public ResponseEntity<Professor> create(@RequestBody Professor professor) {
-        if (professor.getId() != 0) {
-            throw new CustomBadRequestException("Campo ID não deve ser enviado para esta requisição");
-        }
-
-        return ResponseEntity.ok().body(professorBusiness.create(professor));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(professorBusiness.create(professor));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Professor> update(@RequestBody Professor professor, int id) {
-        Professor p = professorBusiness.find(id);
-
-        if (p == null) {
-            throw new CustomNotFoundException("Professor informado não foi encontrado");
-        }
-
-        return ResponseEntity.ok().body(professorBusiness.update(professor));
+    public ResponseEntity<?> update(@RequestBody Professor professor, @PathVariable int id) {
+        professorExists(id);
+        professor.setId(id);
+        professorBusiness.update(professor);
+        return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<String> delete(@RequestBody Professor professor) {
-        Professor p = professorBusiness.find(professor.getId());
-
-        if (p == null) {
-            throw new CustomNotFoundException("Professor informado não foi encontrado");
-        }
-
-        professorBusiness.delete(professor);
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        professorExists(id);
+        professorBusiness.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    private void professorExists(int id) {
+        if (professorBusiness.find(id) == null)
+            throw new CustomNotFoundException("Professor informado não foi encontrado");
     }
 }

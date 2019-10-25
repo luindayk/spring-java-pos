@@ -26,7 +26,7 @@ public class ProfessorBusinessImpl implements ProfessorBusiness {
 
     @Override
     public Professor find(int id) {
-        return professorRepository.getOne(id);
+        return professorRepository.findById(id).get();
     }
 
     @Override
@@ -36,11 +36,18 @@ public class ProfessorBusinessImpl implements ProfessorBusiness {
 
     @Override
     public Professor update(Professor professor) {
-        return professorRepository.save(professor);
+        Professor p = this.find(professor.getId());
+        if (professor.getNome() != null)
+            p.setNome(professor.getNome());
+
+        if (professor.getEspecializacao() != null)
+            p.setEspecializacao(professor.getEspecializacao());
+
+        return professorRepository.save(p);
     }
 
     @Override
-    public void delete(Professor professor) {
-        professorRepository.delete(professor);
+    public void delete(int id) {
+        professorRepository.deleteById(id);
     }
 }
