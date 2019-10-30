@@ -12,5 +12,5 @@ public interface AlunoBusiness {
     Aluno find(int id);
     Aluno create(Aluno aluno);
     Aluno update(Aluno aluno);
-    void delete(Aluno aluno);
+    void delete(int id);
 }

@@ -36,11 +36,25 @@ public class MateriaBusinessImpl implements MateriaBusiness {
 
     @Override
     public Materia update(Materia materia) {
-        return materiaRepository.save(materia);
+        Materia m = this.find(materia.getId());
+
+        if (materia.getNome() != null) {
+            m.setNome(materia.getNome());
+        }
+
+        if (materia.getDescricao() != null) {
+            m.setDescricao(materia.getDescricao());
+        }
+
+        if (materia.getCursos() != null) {
+            m.setCursos(materia.getCursos());
+        }
+
+        return materiaRepository.save(m);
     }
 
     @Override
-    public void delete(Materia materia) {
-        materiaRepository.delete(materia);
+    public void delete(int id) {
+        materiaRepository.deleteById(id);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class AlunoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Aluno>> findAll(@PageableDefault(size = 10)Pageable pageable, @RequestParam(required = false) Optional<String> nome) {
+    public ResponseEntity<List<Aluno>> findAll(@PageableDefault(size = 10, page = 0)Pageable pageable, @RequestParam(required = false) Optional<String> nome) {
         Aluno a = new Aluno();
 
         if (nome.isPresent()) {
@@ -43,11 +44,8 @@ public class AlunoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Aluno> find(@PathVariable int id) {
+        this.alunoExists(id);
         Aluno a = alunoBusiness.find(id);
-
-        if (a == null) {
-            throw new CustomNotFoundException("Aluno informado não foi encontrado");
-        }
 
         return ResponseEntity.ok().body(a);
     }
@@ -60,7 +58,7 @@ public class AlunoController {
 
         /* Verifica se a turma enviada na requisição existe */
         for (Turma t : aluno.getTurmas()) {
-            Optional<Turma> ot = turmaBusiness.find(t.getId());
+            Turma ot = turmaBusiness.find(t.getId());
 
             if (ot.equals(Optional.empty())) {
                 throw new CustomNotFoundException("Turma " + t.getId() + " informada não existe!");
@@ -68,20 +66,17 @@ public class AlunoController {
         }
         /* Verifica se a turma enviada na requisição existe */
 
-        return ResponseEntity.ok().body(alunoBusiness.create(aluno));
+        return ResponseEntity.status(HttpStatus.CREATED).body(alunoBusiness.create(aluno));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Aluno> update(@RequestBody Aluno aluno, @PathVariable int id) {
-        Aluno a = alunoBusiness.find(id);
-
-        if (a == null) {
-            throw new CustomBadRequestException("Aluno informado não foi encontrado");
-        }
+        alunoExists(id);
+        aluno.setId(id);
 
         /* Verifica se a turma enviada na requisição existe */
         for (Turma t : aluno.getTurmas()) {
-            Optional<Turma> ot = turmaBusiness.find(t.getId());
+            Turma ot = turmaBusiness.find(t.getId());
 
             if (ot.equals(Optional.empty())) {
                 throw new CustomNotFoundException("Turma " + t.getId() + " informada não existe!");
@@ -89,16 +84,21 @@ public class AlunoController {
         }
         /* Verifica se a turma enviada na requisição existe */
 
-        return ResponseEntity.ok().body(alunoBusiness.update(aluno));
+        alunoBusiness.update(aluno);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
-        Aluno a = alunoBusiness.find(id);
-        if (a == null) {
-            throw new CustomBadRequestException("Aluno informado não foi encontrado");
-        }
-        alunoBusiness.delete(a);
+        alunoExists(id);
+        alunoBusiness.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    private void alunoExists(int id) {
+        if (alunoBusiness.find(id) == null) {
+            throw new CustomNotFoundException("Aluno informado não foi encontrado");
+        }
     }
 }

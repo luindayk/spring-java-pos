@@ -9,8 +9,8 @@ import java.util.Optional;
 public interface CursoBusiness {
 
     List<Curso> findAll(Pageable pageable);
-    Optional<Curso> find(int id);
+    Curso find(int id);
     Curso create(Curso professor);
     Curso update(Curso professor);
-    void delete(Curso professor);
+    void delete(int id);
 }

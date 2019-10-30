@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface TurmaBusiness {
 
     List<Turma> findAll(Pageable pageable);
-    Optional<Turma> find(int id);
+    Turma find(int id);
     Turma create(Turma turma);
     Turma update(Turma turma);
-    void delete(Turma turma);
+    void delete(int id);
 }

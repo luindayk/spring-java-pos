@@ -9,6 +9,7 @@ import br.com.facef.informatica.model.Materia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,50 +28,43 @@ public class CursoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Curso>> findAll(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<List<Curso>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
         return ResponseEntity.ok().body(cursoBusiness.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Curso>> find(@PathVariable int id) {
-        Optional<Curso> c = cursoBusiness.find(id);
-
-        if (c == null) {
-            throw new CustomNotFoundException("Curso informado não foi encontrado");
-        }
+    public ResponseEntity<Curso> find(@PathVariable int id) {
+        cursoExists(id);
+        Curso c = cursoBusiness.find(id);
 
         return ResponseEntity.ok().body(c);
     }
 
     @PostMapping
     public ResponseEntity<Curso> create(@RequestBody Curso curso) {
-        if (curso.getId() != 0) {
-            throw new CustomBadRequestException("Campo ID não deve ser enviado para esta requisição");
-        }
-
-        return ResponseEntity.ok().body(cursoBusiness.create(curso));
+        return ResponseEntity.status(HttpStatus.CREATED).body(cursoBusiness.create(curso));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Curso> update(@RequestBody Curso curso, int id) {
-        Optional<Curso> c = cursoBusiness.find(id);
+        cursoExists(id);
+        curso.setId(id);
 
-        if (c == null) {
-            throw new CustomNotFoundException("Curso informado não foi encontrado");
-        }
-
-        return ResponseEntity.ok().body(cursoBusiness.update(curso));
-    }
-
-    public ResponseEntity<String> delete(@RequestBody Curso curso) {
-        Optional<Curso> c = cursoBusiness.find(curso.getId());
-
-        if (c == null) {
-            throw new CustomNotFoundException("Curso informado não foi encontrado");
-        }
-
-        cursoBusiness.delete(curso);
+        cursoBusiness.update(curso);
 
         return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<String> delete(@RequestBody int id) {
+        cursoExists(id);
+        cursoBusiness.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    private void cursoExists(int id) {
+        if (cursoBusiness.find(id) == null) {
+            throw new CustomNotFoundException("Curso informado não foi encontrado");
+        }
     }
 }

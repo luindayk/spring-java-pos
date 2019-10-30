@@ -11,6 +11,7 @@ import br.com.facef.informatica.model.Turma;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,17 +33,14 @@ public class TurmaController {
 
 
     @GetMapping
-    public ResponseEntity<List<Turma>> findAll(@PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<List<Turma>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
         return ResponseEntity.ok().body(turmaBusiness.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Turma>> find(@PathVariable int id) {
-        Optional<Turma> t = turmaBusiness.find(id);
-
-        if (t.equals(Optional.empty())) {
-            throw new CustomNotFoundException("Turma informada não foi encontrada");
-        }
+    public ResponseEntity<Turma> find(@PathVariable int id) {
+        turmaExists(id);
+        Turma t = turmaBusiness.find(id);
 
         return ResponseEntity.ok().body(t);
     }
@@ -53,37 +51,37 @@ public class TurmaController {
             throw new CustomBadRequestException("Campo ID não deve ser enviado para esta requisição");
         }
 
-        Optional<Curso> oc = cursoBusiness.find(turma.getCurso().getId());
+        Curso oc = cursoBusiness.find(turma.getCurso().getId());
 
         if (oc.equals(Optional.empty())) {
             throw new CustomNotFoundException("Turma " + turma.getCurso().getId() + " informada não existe!");
         }
 
-        turma.setCurso(oc.get());
+        turma.setCurso(oc);
 
-        return ResponseEntity.ok().body(turmaBusiness.create(turma));
+        return ResponseEntity.status(HttpStatus.CREATED).body(turmaBusiness.create(turma));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Turma> update(@RequestBody Turma turma, int id) {
-        Optional<Turma> t = turmaBusiness.find(id);
+        turmaExists(id);
+        turma.setId(id);
 
-        if (t.equals(Optional.empty())) {
-            throw new CustomNotFoundException("Turma informada não foi encontrada");
-        }
-
-        return ResponseEntity.ok().body(turmaBusiness.update(turma));
-    }
-
-    public ResponseEntity<String> delete(@RequestBody Turma turma) {
-        Optional<Turma> t = turmaBusiness.find(turma.getId());
-
-        if (t.equals(Optional.empty())) {
-            throw new CustomNotFoundException("Turma informada não foi encontrada");
-        }
-
-        turmaBusiness.delete(turma);
+        turmaBusiness.update(turma);
 
         return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<String> delete(@RequestBody int id) {
+        turmaExists(id);
+        turmaBusiness.delete(id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    private void turmaExists(int id) {
+        if (turmaBusiness.find(id) == null) {
+            throw new CustomNotFoundException("Matéria informada não foi encontrada");
+        }
     }
 }

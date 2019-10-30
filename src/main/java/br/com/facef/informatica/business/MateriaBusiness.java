@@ -11,5 +11,5 @@ public interface MateriaBusiness {
     Materia find(int id);
     Materia create(Materia professor);
     Materia update(Materia professor);
-    void delete(Materia professor);
+    void delete(int id);
 }

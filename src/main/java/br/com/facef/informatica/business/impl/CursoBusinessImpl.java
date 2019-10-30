@@ -26,8 +26,8 @@ public class CursoBusinessImpl implements CursoBusiness {
     }
 
     @Override
-    public Optional<Curso> find(int id) {
-        return cursoRepository.findById(id);
+    public Curso find(int id) {
+        return cursoRepository.findById(id).get();
     }
 
     @Override
@@ -37,11 +37,24 @@ public class CursoBusinessImpl implements CursoBusiness {
 
     @Override
     public Curso update(Curso curso) {
-        return cursoRepository.save(curso);
+        Curso c = this.find(curso.getId());
+        if (curso.getNome() != null) {
+            c.setNome(curso.getNome());
+        }
+
+        if (curso.getDescricao() != null) {
+            c.setDescricao(curso.getDescricao());
+        }
+
+        if (curso.getMaterias() != null) {
+            c.setMaterias(curso.getMaterias());
+        }
+
+        return cursoRepository.save(c);
     }
 
     @Override
-    public void delete(Curso curso) {
-        cursoRepository.delete(curso);
+    public void delete(int id) {
+        cursoRepository.deleteById(id);
     }
 }

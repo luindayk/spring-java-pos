@@ -29,8 +29,8 @@ public class TurmaBusinessImpl implements TurmaBusiness {
     }
 
     @Override
-    public Optional<Turma> find(int id) {
-        return turmaRepository.findById(id);
+    public Turma find(int id) {
+        return turmaRepository.findById(id).get();
     }
 
     @Override
@@ -40,11 +40,29 @@ public class TurmaBusinessImpl implements TurmaBusiness {
 
     @Override
     public Turma update(Turma turma) {
-        return turmaRepository.save(turma);
+        Turma t = this.find(turma.getId());
+
+        if (turma.getNome() != null) {
+            t.setNome(turma.getNome());
+        }
+
+        if (turma.getAlunos() != null) {
+            t.setAlunos(turma.getAlunos());
+        }
+
+        if (turma.getCurso() != null) {
+            t.setCurso(turma.getCurso());
+        }
+
+        if (turma.getPeriodo() != null) {
+            t.setPeriodo(turma.getPeriodo());
+        }
+
+        return turmaRepository.save(t);
     }
 
     @Override
-    public void delete(Turma turma) {
-        turmaRepository.delete(turma);
+    public void delete(int id) {
+        turmaRepository.deleteById(id);
     }
 }

@@ -35,11 +35,20 @@ public class AlunoBusinessImpl implements AlunoBusiness {
 
     @Override
     public Aluno update(Aluno aluno) {
-        return alunoRepository.save(aluno);
+        Aluno a = this.find(aluno.getId());
+        if (aluno.getNome() != null) {
+            a.setNome(aluno.getNome());
+        }
+
+        if (aluno.getTurmas() != null) {
+            a.setTurmas(aluno.getTurmas());
+        }
+
+        return alunoRepository.save(a);
     }
 
     @Override
-    public void delete(Aluno aluno) {
-        alunoRepository.delete(aluno);
+    public void delete(int id) {
+        alunoRepository.deleteById(id);
     }
 }
