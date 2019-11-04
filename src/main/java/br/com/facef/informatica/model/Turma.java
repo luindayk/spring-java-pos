@@ -19,6 +19,7 @@ public class Turma implements Serializable {
     private Periodo periodo;
 
     @ManyToMany(mappedBy = "turmas")
+    @OrderBy("alunos.nome ASC")
     private List<Aluno> alunos;
 
     @ManyToOne

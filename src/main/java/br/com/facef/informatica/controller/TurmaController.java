@@ -31,7 +31,6 @@ public class TurmaController {
         this.cursoBusiness = cursoBusiness;
     }
 
-
     @GetMapping
     public ResponseEntity<List<Turma>> findAll(@PageableDefault(size = 10, page = 0) Pageable pageable) {
         return ResponseEntity.ok().body(turmaBusiness.findAll(pageable));
@@ -72,6 +71,7 @@ public class TurmaController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@RequestBody int id) {
         turmaExists(id);
         turmaBusiness.delete(id);

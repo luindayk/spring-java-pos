@@ -32,14 +32,9 @@ public class AlunoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Aluno>> findAll(@PageableDefault(size = 10, page = 0)Pageable pageable, @RequestParam(required = false) Optional<String> nome) {
-        Aluno a = new Aluno();
-
-        if (nome.isPresent()) {
-            a.setNome(nome.get());
-        }
-
-        return ResponseEntity.ok().body(alunoBusiness.findAll(Example.of(a), pageable));
+    public ResponseEntity<List<Aluno>> findAll(@PageableDefault(size = 10, page = 0)Pageable pageable,
+                                               @RequestParam(required = false) String nome) {
+        return ResponseEntity.ok().body(alunoBusiness.findAll(pageable, nome));
     }
 
     @GetMapping("/{id}")

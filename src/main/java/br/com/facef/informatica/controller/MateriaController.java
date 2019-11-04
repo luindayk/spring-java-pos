@@ -52,6 +52,7 @@ public class MateriaController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@RequestBody int id) {
         materiaExists(id);
         materiaBusiness.delete(id);

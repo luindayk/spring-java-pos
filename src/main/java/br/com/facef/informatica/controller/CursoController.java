@@ -55,6 +55,7 @@ public class CursoController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@RequestBody int id) {
         cursoExists(id);
         cursoBusiness.delete(id);
